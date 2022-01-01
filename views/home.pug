@@ -1,0 +1,23 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(href="../static/css/style.css", rel="stylesheet")
+        title Document
+    body 
+        header 
+            h1(class="text-6xl") Zoom
+
+        main 
+            div#myStream
+                video#myFace(autoplay, playsinline, width="400", height="400")
+                div(class="flex")
+                    button#mute(class="border-4 border-black") Mute
+                    button#camera(class="border-4 border-black") Camera Off
+                    select#cameras(class="border-4 border-black")
+
+
+        script(src="/socket.io/socket.io.js") 
+        script(src="../static/script/app.js")
