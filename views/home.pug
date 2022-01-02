@@ -13,10 +13,10 @@ html(lang="en")
                 h1(class="text-6xl") Zoom
 
         main(class="flex flex-col w-4/5 justify-center mx-auto")
-            div#welcome(class="mx-auto border-4 border-black")
-                form    
+            div#welcome(class="mx-auto")
+                form(class="border-4 border-black")
                     input(placeholder="room name", required, type="text")
-                    button(class="border-4 border-black m-px") Enter Room
+                    button(class="border-l-4 border-black m-px") Enter Room
             div#call
                 div(class="flex h-60")
                     div#chat(class="flex flex-col border-4 border-black w-4/5")
