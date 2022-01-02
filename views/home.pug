@@ -18,7 +18,7 @@ html(lang="en")
                     input(placeholder="room name", required, type="text")
                     button(class="border-4 border-black m-px") Enter Room
             div#call
-                div(class="flex")
+                div(class="flex h-60")
                     div#chat(class="flex flex-col border-4 border-black w-4/5")
                         div#chatList(class="flex-1 flex flex-col overflow-y-auto")
 
@@ -28,7 +28,7 @@ html(lang="en")
                     div#myStream(class="w-1/5")
                         div(class="border-4 border-l-0 border-black")
                             video#peersFace(autoplay, playsinline, width="400", height="400" class="mx-auto m-px")
-                            video#myFace(autoplay, playsinline, width="400", height="400" class="mx-auto border-b-4 border-t-4 border-black m-px")
+                            video#myFace(autoplay, muted, playsinline, width="400", height="400" class="mx-auto border-b-4 border-t-4 border-black m-px")
                             div(class="flex flex-col w-full mx-auto justify-center")
                                 button#mute(class="border-4 border-black m-px") Mute
                                 button#camera(class="border-4 border-black m-px") Camera Off

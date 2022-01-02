@@ -127,10 +127,10 @@ function handleChatSubmit(event){
     const span = document.createElement('span')
     span.innerText = message
     span.className = "myMessage"
-    dataChannel.send(message)
     chatList.appendChild(span)
     input.value = ""
-
+    chatList.scrollTop = chatList.scrollHeight
+    dataChannel.send(message)
 }
 
 function handleRecievedMessage(message){
@@ -138,6 +138,7 @@ function handleRecievedMessage(message){
     span.innerText = message
     span.className = "othersMessage"
     chatList.appendChild(span)
+    chatList.scrollTop = chatList.scrollHeight
 
 }
 
