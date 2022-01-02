@@ -5,18 +5,37 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(href="../static/css/style.css", rel="stylesheet")
+        link(rel="shortcut icon", href="#")
         title Document
     body 
         header 
-            h1(class="text-6xl") Zoom
+            a(href="") 
+                h1(class="text-6xl") Zoom
 
-        main 
-            div#myStream
-                video#myFace(autoplay, playsinline, width="400", height="400")
+        main(class="flex flex-col w-4/5 justify-center mx-auto")
+            div#welcome(class="mx-auto border-4 border-black")
+                form    
+                    input(placeholder="room name", required, type="text")
+                    button(class="border-4 border-black m-px") Enter Room
+            div#call
                 div(class="flex")
-                    button#mute(class="border-4 border-black") Mute
-                    button#camera(class="border-4 border-black") Camera Off
-                    select#cameras(class="border-4 border-black")
+                    div#chat(class="flex flex-col border-4 border-black w-4/5")
+                        div#chatList(class="flex-1 flex flex-col overflow-y-auto")
+
+                        form#chatForm(class="flex-none mb-px")
+                            input(type="text" required placeholder="Message" class="border-4 border-r-0 border-black w-11/12")
+                            button(class="border-4 border-black w-1/12") Send
+                    div#myStream(class="w-1/5")
+                        div(class="border-4 border-l-0 border-black")
+                            video#peersFace(autoplay, playsinline, width="400", height="400" class="mx-auto m-px")
+                            video#myFace(autoplay, playsinline, width="400", height="400" class="mx-auto border-b-4 border-t-4 border-black m-px")
+                            div(class="flex flex-col w-full mx-auto justify-center")
+                                button#mute(class="border-4 border-black m-px") Mute
+                                button#camera(class="border-4 border-black m-px") Camera Off
+                                select#cameras(class="border-4 border-black m-px")
+
+
+
 
 
         script(src="/socket.io/socket.io.js") 

@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
+
+.myMessage {
+    @apply self-end bg-gray-300 p-1 m-px rounded-lg;
+}
+
+.othersMessage {
+    @apply self-start bg-gray-300 p-1 m-px rounded-lg;
+}
+
 @tailwind utilities;
