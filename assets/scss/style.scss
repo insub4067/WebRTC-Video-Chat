@@ -9,4 +9,10 @@
     @apply self-start bg-gray-300 p-1 m-px rounded-lg;
 }
 
+.myFace {
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+}
+
 @tailwind utilities;
