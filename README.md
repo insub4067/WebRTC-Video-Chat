@@ -1,7 +1,8 @@
 # Zoom-Clone
 
+<img width="514" alt="스크린샷 2022-01-04 오전 1 50 57" src="https://user-images.githubusercontent.com/85481204/147958721-9bd4fe83-47ed-401f-9048-8791139291f3.png">
 
-![CA8C9DAB-A4A7-4AD0-9207-2393B96F867C](https://user-images.githubusercontent.com/85481204/147931452-3a490c2b-d9be-4dce-b0b0-2eb88bf116ca.jpg)
+
 
 features : Screenshare, LiveCamera, LiveChatting.   
 
