@@ -7,7 +7,7 @@ const cameraBtn = document.getElementById("camera")
 const cameraSelect = document.getElementById("cameras")
 const chatList = document.getElementById("chatList")
 const chatForm = document.getElementById("chatForm")
-
+const chat = document.getElementById("chat")
 
 call.hidden = true
 
@@ -17,6 +17,9 @@ let cameraOff = false
 let roomName = ""
 let myPeerConnection
 let dataChannel
+let screenId = ""
+
+// ChatRoom
 
 async function getCameras(){
     try {
@@ -27,6 +30,7 @@ async function getCameras(){
             const option = document.createElement('option')
             option.value = camera.deviceId
             option.innerText = camera.label
+            option.id = "camera"
             if(currentCamera.label == camera.label){
                 option.selected =true
             }
@@ -34,10 +38,22 @@ async function getCameras(){
         })
     } catch (error) {
         console.log(error)
+        console.log("1234")
     }
 }
 
-async function getMedia(deviceId) {
+async function getScreens(){
+    const screen = await navigator.mediaDevices.getUserMedia({video: {mediaSource: "screen"}})
+    screenId = screen.id
+    const option = document.createElement('option')
+    option.value = screenId
+    option.id = "screen"
+    option.innerText = "Screen Share"
+    cameraSelect.appendChild(option)
+}
+
+async function getMedia(deviceId, id) {
+
     const initialConstraints = {
         audio : true,
         video : {facingMode: "user"}
@@ -46,13 +62,26 @@ async function getMedia(deviceId) {
         audio : true,
         video: {deviceId: { exact: deviceId} }
     }
+
     try {
+
         myStream = await navigator.mediaDevices.getUserMedia(
-            deviceId? cameraConstraints : initialConstraints
+            id === "camera" ? cameraConstraints : initialConstraints
         )
+
+        if(id === "screen"){
+            myStream = await navigator.mediaDevices.getDisplayMedia({
+                cursor: true,
+                audio: true,
+                video: true
+            })
+        }
+
         myFace.srcObject = myStream
+
         if(!deviceId) {
             await getCameras()
+            await getScreens()
         }
     } catch (error) {
         console.log(error)
@@ -61,12 +90,14 @@ async function getMedia(deviceId) {
 
 function handleMuteBtn(){
     myStream.getAudioTracks().forEach((track) => {track.enabled = !track.enabled})
-    if(!muted){
+    const audiosender = myPeerConnection.getSenders().find((sender)=>sender.track.kind === "audio")
+    
+    if(!audiosender.muted){
         muteBtn.innerText = "Unmute"
-        muted = true
+        audiosender.muted = true
     }else{
         muteBtn.innerText = "Mute"
-        muted = false
+        audiosender.muted = false
     }
 }
 function handleCameraBtn(){
@@ -80,12 +111,20 @@ function handleCameraBtn(){
     }
 }
 
+
+
 async function handleCameraSelect(){
-    await getMedia(cameraSelect.value)
-    if(myPeerConnection){
-        const videoTrack = myStream.getVideoTracks()[0]
-        const videosender = myPeerConnection.getSenders().find((sender)=>sender.track.kind === "video")
-        videosender.repalceTrack(videoTrack)
+    try {
+        const id = cameraSelect.options[cameraSelect.selectedIndex].id
+        await getMedia(cameraSelect.value, id)
+
+        if(myPeerConnection){
+            const videosender = myPeerConnection.getSenders().find((sender)=>sender.track.kind === "video")
+            const videoTrack = myStream.getVideoTracks()[0]
+            videosender.replaceTrack(videoTrack)
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -94,7 +133,7 @@ cameraBtn.addEventListener('click', handleCameraBtn)
 cameraSelect.addEventListener('input', handleCameraSelect)
 
 
-//Welcome Form
+// Welcome 
 const welcome  = document.getElementById("welcome")
 const welcomeForm = welcome.querySelector('form')
 
@@ -118,8 +157,7 @@ async function handleWelcomeSubmit(event){
 
 welcomeForm.addEventListener('submit', handleWelcomeSubmit)
 
-// chat 
-
+// Chat 
 function handleChatSubmit(event){
     event.preventDefault()
     const input = chatForm.querySelector('input')
@@ -145,7 +183,7 @@ function handleRecievedMessage(message){
 chatForm.addEventListener('submit', handleChatSubmit)
 
 
-// 소켓
+// Socket
 socket.on("welcome", async () => {
     dataChannel = myPeerConnection.createDataChannel('chat')
     dataChannel.addEventListener('message', (event) => {
@@ -187,6 +225,7 @@ socket.on("ice", (ice) => {
 
 // RTC
 function makeConnections(){
+    console.log('makeConnections')
     myPeerConnection = new RTCPeerConnection({
         iceServers: [
           {
