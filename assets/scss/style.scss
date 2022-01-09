@@ -3,12 +3,12 @@
 
 .myMessage {
     word-wrap: break-word;
-    @apply self-end bg-gray-300 p-1 m-px rounded-lg max-w-9/10;
+    @apply self-end bg-gray-300 p-1 m-px rounded-lg w-9/10;
 }
 
 .othersMessage {
     word-wrap: break-word;
-    @apply self-start bg-gray-300 p-1 m-px rounded-lg max-w-9/10;
+    @apply self-start bg-gray-300 p-1 m-px rounded-lg w-9/10;
 }
 
 .myFace {
